@@ -1,0 +1,22 @@
+POST /api/1.0/login
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "nickname": "MuziCunt",
+  "password": "123"
+}
+###
+
+POST /api/1.0/register
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "nickname": "Sergey",
+  "password": "228",
+  "confirmPassword": "228",
+  "email": "test@gmail.com"
+}
+
+###
