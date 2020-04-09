@@ -1,13 +1,11 @@
 package ru.itis.semesterwork.repositories;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.itis.semesterwork.models.VerificationToken;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 import java.util.Optional;
 
 

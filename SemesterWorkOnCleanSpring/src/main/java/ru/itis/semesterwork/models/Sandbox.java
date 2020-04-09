@@ -21,6 +21,6 @@ public class Sandbox {
     private String jsCode;
     private String cssCode;
 
-    @ManyToOne(targetEntity = User.class)
+    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
     private User user;
 }

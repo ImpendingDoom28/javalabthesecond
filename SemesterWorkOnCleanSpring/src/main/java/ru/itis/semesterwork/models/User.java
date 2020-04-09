@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity(name = "user_codep")
-@ToString(exclude = {"verificationToken"})
+@ToString(exclude = {"verificationToken", "sandboxList"})
 public class User {
 
     @Id
@@ -35,8 +35,5 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private VerificationToken verificationToken;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
-    private List<Sandbox> sandboxList;
 
 }

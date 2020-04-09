@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.itis.semesterwork.models.Sandbox;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 //Uses spring data jpa without spring boot
@@ -15,11 +16,11 @@ public class SandboxRepositoryImpl implements SandboxRepository {
     //language=SQL
     private final String SQL_FIND_BY_ID = "SELECT * FROM sandbox WHERE sandbox.id = ?1";
 
-    @Autowired
+    @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
     @Override
+    @Transactional
     public Optional<Sandbox> save(Sandbox entity) {
         entityManager.persist(entity);
         return Optional.of(entity);
@@ -36,6 +37,7 @@ public class SandboxRepositoryImpl implements SandboxRepository {
     }
 
     @Override
+    @Transactional
     public Optional<Sandbox> findById(String id) {
         Sandbox sandbox = (Sandbox) entityManager
                 .createNativeQuery(SQL_FIND_BY_ID, Sandbox.class)
