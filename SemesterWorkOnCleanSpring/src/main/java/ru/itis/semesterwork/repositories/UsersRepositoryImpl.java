@@ -28,6 +28,7 @@ public class UsersRepositoryImpl implements UsersRepository {
     private static final String SQL_FIND_BY_NICKNAME = "SELECT * FROM user_codep WHERE nickname = ?";
     //language=SQL
     private static final String SQL_UPDATE = "UPDATE user_codep SET user_codep.state = ?";
+    private static final String SQL_FIND_BY_ID = "SELECT * FROM user_codep WHERE id = ?";
 
     private RowMapper<User> userRowMapper = (row, rowIndex) ->
         User.builder()
@@ -78,8 +79,9 @@ public class UsersRepositoryImpl implements UsersRepository {
     }
 
     @Override
-    public Optional<User> findById(Long aLong) {
-        return Optional.empty();
+    public Optional<User> findById(Long id) {
+        User user = jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{id}, userRowMapper);
+        return Optional.ofNullable(user);
     }
 
     @Override

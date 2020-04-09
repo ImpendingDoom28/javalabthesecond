@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity(name = "user_codep")
-@ToString(exclude = {"verificationToken", "sandboxList"})
+@ToString(exclude = {"verificationToken"})
 public class User {
 
     @Id

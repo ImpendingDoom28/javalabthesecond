@@ -18,5 +18,14 @@ Content-Type: application/json
   "confirmPassword": "228",
   "email": "test@gmail.com"
 }
+###
 
+POST /api/1.0/login
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "email": "mikheevs11@gmail.com",
+  "password": "123"
+}
 ###

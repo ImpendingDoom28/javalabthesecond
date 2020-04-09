@@ -10,6 +10,9 @@
 <body>
  <#if user??>
      ${user.nickname} ${user.email}
+ <#else>
+     <h1>User not found</h1>
  </#if>
+ ${authUser}
 </body>
 </html>
