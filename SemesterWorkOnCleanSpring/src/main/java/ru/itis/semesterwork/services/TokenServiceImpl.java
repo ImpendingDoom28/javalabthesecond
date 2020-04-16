@@ -3,9 +3,10 @@ package ru.itis.semesterwork.services;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jdk.nashorn.internal.parser.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.itis.semesterwork.models.State;
@@ -13,6 +14,7 @@ import ru.itis.semesterwork.models.User;
 import ru.itis.semesterwork.models.VerificationToken;
 import ru.itis.semesterwork.repositories.UsersRepository;
 import ru.itis.semesterwork.repositories.VerificationTokenRepository;
+import ru.itis.semesterwork.security.jwt.details.UserDetailsImpl;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -30,25 +32,21 @@ public class TokenServiceImpl implements TokenService {
     private UsersRepository usersRepository;
 
     @Override
-    public boolean validateToken(String token, UserDetails userDetails) {
-        String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
-    }
-
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
+    public Optional<Claims> validateToken(String token) {
+        try {
+            return Optional.of(Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody());
+        } catch (Exception e) {
+            throw new AuthenticationCredentialsNotFoundException("Bad token");
+        }
     }
 
     @Override
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetailsImpl userDetailsImpl) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", userDetails.getAuthorities());
-        return createToken(claims, userDetails.getUsername());
-    }
-
-    @Override
-    public String extractUsername(String token) {
-        return extractClaim(token, Claims::getSubject);
+        claims.put("role", userDetailsImpl.getAuthorities());
+        claims.put("id", userDetailsImpl.getUser().getId());
+        claims.put("email", userDetailsImpl.getUser().getEmail());
+        return createToken(claims, userDetailsImpl.getUsername());
     }
 
     @Override
@@ -77,7 +75,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public boolean verifyVerificationToken(String token) {
+    public boolean validateVerificationToken(String token) {
         Optional<VerificationToken> tokenOptional = verificationTokenRepository.findByValue(token);
         if(tokenOptional.isPresent()) {
             VerificationToken verificationToken = tokenOptional.get();

@@ -14,7 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity(name = "user_codep")
-@ToString(exclude = {"verificationToken"})
+@ToString(exclude = {"verificationToken", "profile"})
 public class User {
 
     @Id
@@ -35,5 +35,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private VerificationToken verificationToken;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Profile profile;
 
 }

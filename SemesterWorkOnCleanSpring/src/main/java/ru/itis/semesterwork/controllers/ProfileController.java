@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 import ru.itis.semesterwork.dto.UserDto;
 import ru.itis.semesterwork.models.User;
-import ru.itis.semesterwork.security.details.UserDetailsImpl;
+import ru.itis.semesterwork.security.jwt.details.UserDetailsImpl;
 import ru.itis.semesterwork.services.UserService;
 
 @Controller

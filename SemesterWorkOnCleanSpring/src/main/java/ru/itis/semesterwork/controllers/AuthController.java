@@ -16,7 +16,7 @@ public class AuthController {
     @GetMapping("/auth")
     public ModelAndView verifyVerificationToken(@RequestParam(required = true, name = "confirmationToken") String token) {
         ModelAndView modelAndView = new ModelAndView();
-        boolean isCorrectToken = tokenService.verifyVerificationToken(token);
+        boolean isCorrectToken = tokenService.validateVerificationToken(token);
         modelAndView.setViewName("redirect:/login");
         if(!isCorrectToken) modelAndView.addObject("error", "Incorrect verification token");
         return modelAndView;

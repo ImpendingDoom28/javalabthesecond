@@ -45,15 +45,16 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public TokenDto apiLogin(LoginForm loginForm) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginForm.getNickname(), loginForm.getPassword())
-            );
-        } catch (BadCredentialsException e) {
-            throw new IllegalArgumentException("Incorrect username or password", e);
-        }
-        UserDetails userDetails = userDetailsService.loadUserByUsername(loginForm.getNickname());
-        String token = tokenService.generateToken(userDetails);
-        return new TokenDto(token);
+//        try {
+//            authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(loginForm.getNickname(), loginForm.getPassword())
+//            );
+//        } catch (BadCredentialsException e) {
+//            throw new IllegalArgumentException("Incorrect username or password", e);
+//        }
+//        UserDetails userDetails = userDetailsService.loadUserByUsername(loginForm.getNickname());
+//        String token = tokenService.generateToken(userDetails);
+//        return new TokenDto(token);
+        return null;
     }
 }

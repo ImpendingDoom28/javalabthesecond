@@ -3,18 +3,17 @@ package ru.itis.semesterwork.services;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 import ru.itis.semesterwork.models.User;
+import ru.itis.semesterwork.security.jwt.details.UserDetailsImpl;
 
 import java.util.Date;
-import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 public interface TokenService {
 
-    boolean validateToken(String token, UserDetails userDetails);
+    Optional<Claims> validateToken(String token);
 
-    String generateToken(UserDetails userDetails);
-
-    String extractUsername(String token);
+    String generateToken(UserDetailsImpl userDetailsImpl);
 
     Date extractExpiration(String token);
 
@@ -22,5 +21,5 @@ public interface TokenService {
 
     String generateVerificationToken(User user);
 
-    boolean verifyVerificationToken(String token);
+    boolean validateVerificationToken(String token);
 }
