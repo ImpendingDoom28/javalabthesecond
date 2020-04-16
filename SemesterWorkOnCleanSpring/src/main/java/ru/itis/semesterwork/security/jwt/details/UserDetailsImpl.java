@@ -1,5 +1,6 @@
-package ru.itis.semesterwork.security.details;
+package ru.itis.semesterwork.security.jwt.details;
 
+import lombok.Builder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import ru.itis.semesterwork.models.User;
 import java.util.Collection;
 import java.util.Collections;
 
+@Builder
 public class UserDetailsImpl implements UserDetails {
 
     private User user;

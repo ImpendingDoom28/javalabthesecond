@@ -4,15 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.GenericFilterBean;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,17 +25,17 @@ import java.util.List;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    @Qualifier(value = "customUserDetails")
-    private UserDetailsService userDetailsService;
+    @Qualifier("jwtAuthenticationFilter")
+    private GenericFilterBean jwtFilter;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AuthenticationProvider authenticationProvider;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         //подписывание страничек
         http.csrf().disable();
-        http.cors();
+        http.cors().disable();
         http
                 .authorizeRequests()
                     .antMatchers("/admin").hasAuthority("ADMIN")
@@ -46,6 +49,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .defaultSuccessUrl("/profile")
                     .failureUrl("/login?error")
                     .permitAll();
+        http.logout().disable();
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/login", "/register", "/sandbox/*", "/confirm", "/auth", "/api/1.0/login", "/api/1.0/register", "/api/1.0/sandbox", "/api/1.0/support", "/api/1.0/messages");
     }
 
     @Bean
@@ -82,9 +93,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
+        auth.authenticationProvider(authenticationProvider);
     }
 
     @Bean
