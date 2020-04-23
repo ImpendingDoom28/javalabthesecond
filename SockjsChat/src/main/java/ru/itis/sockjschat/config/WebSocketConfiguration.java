@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import ru.itis.sockjschat.handlers.AuthHandshakeHandler;
 import ru.itis.sockjschat.handlers.WebSocketsMessagesHandler;
 
 @Configuration
@@ -14,8 +15,12 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
     @Autowired
     private WebSocketsMessagesHandler messagesHandler;
 
+    @Autowired
+    private AuthHandshakeHandler handshakeHandler;
+
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry webSocketHandlerRegistry) {
-        webSocketHandlerRegistry.addHandler(messagesHandler, "/chat");
+        webSocketHandlerRegistry.addHandler(messagesHandler, "/chat")
+                .setHandshakeHandler(handshakeHandler).setAllowedOrigins("*").withSockJS();
     }
 }

@@ -19,6 +19,7 @@ import java.util.Properties;
 
 @EnableTransactionManagement
 @Configuration
+@ComponentScan(basePackages = {"ru.itis.sockjschat"})
 @PropertySource("classpath:application.properties")
 public class ApplicationContextConfig {
 

@@ -15,27 +15,40 @@
         var webSocket;
         function connect() {
             webSocket = new SockJS("http://localhost:8080/chat");
-            document.cookie = 'path=/';
+            document.cookie = "path=/";
 
             webSocket.onmessage = function receiveMessage(response) {
-                console.log(response.code);
-                if(response.code === "403") {
-                    $('.body').innerHTML = `<h1>Error during websocket registration, chat closed for you.</h1>`;
-                } else {
-                    let data = response['data'];
-                    let json = JSON.parse(data);
-                    $('#messagesList').last().after("<li>" + json['roomId'] + ': ' + json['text'] + "</li>")
-                }
+                debugger;
+                let data = response['data'];
+                let json = JSON.parse(data);
+                $('#messagesList').last().after("<li>" + json['sender'] + ': ' + json['text'] + "</li>")
             }
         }
 
         function sendMessage(text, roomId) {
             let message = {
-                text,
-                roomId,
+                "text": text,
+                "roomId": roomId,
+                "sender": getCookie("USER_CHECK")
             };
-
+            debugger;
             webSocket.send(JSON.stringify(message));
+        }
+
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
         }
     </script>
 </head>

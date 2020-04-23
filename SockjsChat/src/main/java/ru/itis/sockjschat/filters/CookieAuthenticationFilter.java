@@ -1,15 +1,7 @@
 package ru.itis.sockjschat.filters;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.filter.GenericFilterBean;
-import ru.itis.sockjschat.models.User;
-import ru.itis.sockjschat.repositories.UsersRepository;
-import ru.itis.sockjschat.repositories.UsersRepositoryImpl;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -23,14 +15,25 @@ public class CookieAuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         System.out.println("IN FILTER");
         Cookie[] cookies = ((HttpServletRequest)request).getCookies();
+        boolean isUserCheckNotNull = false;
+        boolean isXAuthNotNull = false;
         for(Cookie cookie: cookies) {
             if(cookie.getName().equals("USER_CHECK")) {
                 if(cookie.getValue() != null) {
-                    chain.doFilter(request, response);
+                    isUserCheckNotNull = true;
+                } else {
+                    response.getWriter().println("You're not authorized!!! Proceed to /login to log in system.");
+                }
+            } else if(cookie.getName().equals("X-Authorization")) {
+                if(cookie.getValue() != null) {
+                    isXAuthNotNull = true;
                 } else {
                     response.getWriter().println("You're not authorized!!! Proceed to /login to log in system.");
                 }
             }
+        }
+        if (isUserCheckNotNull && isXAuthNotNull) {
+            chain.doFilter(request, response);
         }
     }
 }
