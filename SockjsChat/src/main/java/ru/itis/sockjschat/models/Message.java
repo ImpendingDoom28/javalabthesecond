@@ -14,6 +14,9 @@ public class Message {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String message;
-    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
-    private User sender;
-    private Long roomId;}
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @Column(name = "room_id")
+    private Long roomId;
+}

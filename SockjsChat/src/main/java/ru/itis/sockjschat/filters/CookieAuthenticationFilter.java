@@ -17,6 +17,8 @@ public class CookieAuthenticationFilter extends GenericFilterBean {
         Cookie[] cookies = ((HttpServletRequest)request).getCookies();
         boolean isUserCheckNotNull = false;
         boolean isXAuthNotNull = false;
+        if(cookies == null) response.getWriter().println("You're not authorized!!! Proceed to /login to log in system.");
+        assert cookies != null;
         for(Cookie cookie: cookies) {
             if(cookie.getName().equals("USER_CHECK")) {
                 if(cookie.getValue() != null) {

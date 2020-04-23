@@ -1,5 +1,6 @@
 package ru.itis.sockjschat.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -25,6 +26,11 @@ public class ApplicationContextConfig {
 
     @Autowired
     private Environment environment;
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        return new ObjectMapper();
+    }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

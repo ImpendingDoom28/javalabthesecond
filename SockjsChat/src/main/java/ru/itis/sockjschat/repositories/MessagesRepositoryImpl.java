@@ -17,8 +17,16 @@ public class MessagesRepositoryImpl implements MessagesRepository {
     @Transactional
     @Override
     public Optional<Message> save(Message message) {
-        entityManager.persist(message);
-        return Optional.empty();
+        try {
+            entityManager.createNativeQuery("INSERT INTO message (id, message, room_id, user_id) VALUE (?,?,?,?)")
+                    .setParameter(1, message.getId())
+                    .setParameter(2,message.getMessage())
+                    .setParameter(3, message.getRoomId())
+                    .setParameter(4, message.getUser().getId()).executeUpdate();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+        return Optional.of(message);
     }
 
     @Override

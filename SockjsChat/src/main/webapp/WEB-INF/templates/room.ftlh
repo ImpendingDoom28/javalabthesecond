@@ -62,7 +62,7 @@
             <#if room.messages??>
                 <#if room.messages?size != 0>
                     <#list room.messages as message>
-                        <li>${message.sender.id}: ${message.message}</li>
+                        <li>${message.sender}: ${message.text}</li>
                     </#list>
                 <#else>
                     <h3>Here you will see the history</h3>

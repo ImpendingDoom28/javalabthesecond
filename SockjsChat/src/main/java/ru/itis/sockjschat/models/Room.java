@@ -18,7 +18,7 @@ public class Room {
 
     private Long id;
     private String name;
-    private Map<Long, WebSocketSession> clients;
+    private Map<String, WebSocketSession> clients;
     private List<MessageDto> messages;
 
 }
