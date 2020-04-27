@@ -1,10 +1,11 @@
 package ru.itis.semesterwork.aop;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 
 public interface LoggingAspect {
 
-    void logMethodAfter(JoinPoint joinPoint);
+    Object logMethodAround(ProceedingJoinPoint proceedingJoinPoint);
 
     void logMethodBefore(JoinPoint joinPoint);
 }

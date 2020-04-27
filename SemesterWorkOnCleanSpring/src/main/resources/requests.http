@@ -29,3 +29,23 @@ Content-Type: application/json
   "password": "123"
 }
 ###
+
+POST /messages
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "pageId": "FIRST",
+  "text": "hello!"
+}
+
+###
+GET /messages
+Host: localhost:8080
+Content-Type: application/json
+
+{
+  "pageId": "FIRST_PAGE"
+}
+
+###

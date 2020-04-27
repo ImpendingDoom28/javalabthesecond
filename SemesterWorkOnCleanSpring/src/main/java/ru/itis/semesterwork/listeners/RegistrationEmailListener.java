@@ -33,9 +33,10 @@ public class RegistrationEmailListener implements ApplicationListener<OnRegister
     }
 
     private void confirmRegistration(OnRegisterSuccessEvent onRegisterSuccessEvent) {
+        System.out.println("In Confirm Register");
         User user = onRegisterSuccessEvent.getUser();
         String finalToken = tokenService.generateVerificationToken(user);
-        String url = onRegisterSuccessEvent.getContextPath() + "http://localhost:8080" + "/auth?confirmationToken=" + finalToken;
+        String url = onRegisterSuccessEvent.getContextPath() + "http://localhost:3000" + "/auth?confirmationToken=" + finalToken;
         freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/email-templates/");
         try {
             Template template = freemarkerConfig.getTemplate("email_verify.ftlh");
