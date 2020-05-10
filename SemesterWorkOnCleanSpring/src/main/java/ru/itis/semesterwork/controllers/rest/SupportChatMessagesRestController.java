@@ -2,8 +2,11 @@ package ru.itis.semesterwork.controllers.rest;
 
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import ru.itis.semesterwork.dto.MessageDto;
 import ru.itis.semesterwork.services.MessageService;
 
@@ -13,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping("/api/1.0/messages")
 public class SupportChatMessagesRestController {
 
@@ -23,6 +27,7 @@ public class SupportChatMessagesRestController {
 
     @PostMapping
     @CrossOrigin(origins = {"http://localhost:3000"})
+    @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> receiveMessage(@RequestBody MessageDto messageDto) {
         if(!pagesWithMessages.containsKey(messageDto.getPageId())) {
             pagesWithMessages.put(messageDto.getPageId(), new ArrayList<>());

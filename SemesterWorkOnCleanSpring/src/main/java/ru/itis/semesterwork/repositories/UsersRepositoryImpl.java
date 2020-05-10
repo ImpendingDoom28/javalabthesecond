@@ -12,10 +12,7 @@ import ru.itis.semesterwork.models.User;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 //Uses JdbcTemplate to work
 @Repository
@@ -28,7 +25,10 @@ public class UsersRepositoryImpl implements UsersRepository {
     private static final String SQL_FIND_BY_NICKNAME = "SELECT * FROM user_codep WHERE nickname = ?";
     //language=SQL
     private static final String SQL_UPDATE = "UPDATE user_codep SET user_codep.state = ?";
+    //language=SQL
     private static final String SQL_FIND_BY_ID = "SELECT * FROM user_codep WHERE id = ?";
+    //language=SQL
+    private static final String SQL_FIND_ALL = "SELECT * FROM user_codep";
 
     private RowMapper<User> userRowMapper = (row, rowIndex) ->
         User.builder()
@@ -49,6 +49,12 @@ public class UsersRepositoryImpl implements UsersRepository {
         ArrayList<User> userList = (ArrayList<User>) jdbcTemplate.query(SQL_FIND_BY_NICKNAME, new Object[]{nickname}, userRowMapper);
         System.out.println(Arrays.toString(userList.toArray()));
         return Optional.ofNullable(userList.isEmpty() ? null : (User)(userList.toArray()[0]));
+    }
+
+    @Override
+    public List<User> findAll() {
+        ArrayList<User> userList = (ArrayList<User>) jdbcTemplate.query(SQL_FIND_ALL, userRowMapper);
+        return userList;
     }
 
     @Override

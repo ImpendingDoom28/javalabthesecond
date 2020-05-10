@@ -1,10 +1,13 @@
 package ru.itis.semesterwork.security.jwt.filter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import ru.itis.semesterwork.security.jwt.authentication.JwtAuthentication;
+import ru.itis.semesterwork.security.jwt.provider.JwtAuthenticationProvider;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

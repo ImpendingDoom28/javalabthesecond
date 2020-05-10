@@ -1,5 +1,6 @@
 package ru.itis.semesterwork.services;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;

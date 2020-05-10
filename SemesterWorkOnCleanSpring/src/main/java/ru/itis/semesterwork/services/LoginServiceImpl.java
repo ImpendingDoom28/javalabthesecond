@@ -3,14 +3,16 @@ package ru.itis.semesterwork.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.*;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.itis.semesterwork.dto.TokenDto;
+import ru.itis.semesterwork.dto.UserDto;
+import ru.itis.semesterwork.dto.UserRestDataDto;
 import ru.itis.semesterwork.forms.LoginForm;
 import ru.itis.semesterwork.models.User;
 import ru.itis.semesterwork.repositories.UsersRepository;
+import ru.itis.semesterwork.security.jwt.authentication.JwtAuthentication;
+import ru.itis.semesterwork.security.jwt.details.UserDetailsImpl;
 
 import java.util.Optional;
 
@@ -44,17 +46,17 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public TokenDto apiLogin(LoginForm loginForm) {
-//        try {
-//            authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(loginForm.getNickname(), loginForm.getPassword())
-//            );
-//        } catch (BadCredentialsException e) {
-//            throw new IllegalArgumentException("Incorrect username or password", e);
-//        }
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(loginForm.getNickname());
-//        String token = tokenService.generateToken(userDetails);
-//        return new TokenDto(token);
-        return null;
+    public UserRestDataDto apiLogin(LoginForm loginForm) {
+        Optional<User> foundUser = usersRepository.findUserByNickname(loginForm.getNickname());
+        if(foundUser.isPresent() && passwordEncoder.matches(loginForm.getPassword(), foundUser.get().getHashPassword())) {
+            try {
+                UserDetailsImpl userDetails = (UserDetailsImpl)userDetailsService.loadUserByUsername(loginForm.getNickname());
+                String token = tokenService.generateToken(userDetails);
+                UserDto userDto = UserDto.from(userDetails.getUser());
+                return new UserRestDataDto(token, userDto);
+            } catch (BadCredentialsException e) {
+                throw new IllegalArgumentException("Incorrect username or password", e);
+            }
+        } else throw new IllegalArgumentException("Invalid login or password");
     }
 }

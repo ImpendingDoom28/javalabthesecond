@@ -1,0 +1,10 @@
+{
+	"loginTitle": "Войти",
+	"nickname": "Никнейм",
+	"nicknamePlaceholder": "Введите ваш никнейм",
+	"password": "Пароль",
+	"passwordPlaceholder": "Введите ваш пароль",
+	"loginButtonText": "Войти в Codep!",
+	"loginWithFacebook": "Войти с Facebook",
+	"noAccountMessage": "Нет аккаунта? Зарегистрируйтесь сейчас!"
+}

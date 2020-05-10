@@ -1,0 +1,10 @@
+{
+	"header": {
+		"sandbox": "Sandbox",
+		"support": "Support",
+		"login": "Login",
+		"register": "Register",
+		"profile": "Your Profile",
+		"adminPanel": "Admin Panel"
+	}
+}

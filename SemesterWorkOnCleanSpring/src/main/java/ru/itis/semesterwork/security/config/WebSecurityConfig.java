@@ -3,9 +3,11 @@ package ru.itis.semesterwork.security.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,10 +20,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.GenericFilterBean;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 @EnableWebSecurity
+@Scope("admin")
+@EnableGlobalMethodSecurity(prePostEnabled = true, proxyTargetClass = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -35,34 +39,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         //подписывание страничек
         http.csrf().disable();
-        http.cors().disable();
-        http
-                .authorizeRequests()
-                    .antMatchers("/admin").hasAuthority("ADMIN")
-                    .antMatchers("/login", "/register", "/sandbox/*", "/confirm", "/auth").permitAll()
-                    .antMatchers("/api/1.0/login", "/api/1.0/register", "/api/1.0/sandbox/*").permitAll()
-                    .anyRequest().authenticated();
-        http
-                .formLogin()
-                    .usernameParameter("nickname")
-                    .passwordParameter("password")
-                    .defaultSuccessUrl("/profile")
-                    .failureUrl("/login?error")
-                    .permitAll();
-        http.logout().disable();
+        http.cors().and().logout().disable();
+        http.formLogin().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilter, BasicAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/login", "/register", "/sandbox/*", "/confirm", "/auth", "/api/1.0/login", "/api/1.0/register", "/api/1.0/sandbox", "/api/1.0/support", "/api/1.0/messages");
+        //Сюда добавлять те url'ы, на которых не нужна проверка секьюрити,
+        //в частности, проверку нашим jwt фильтром.
+        web.ignoring().antMatchers( "/api/1.0/login", "/api/1.0/sandbox", "/api/1.0/register", "/static/locales/**");
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         final CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Collections.singletonList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("*"));
 
         List<String> methodsAllowed = new ArrayList<>();
         methodsAllowed.add("HEAD");
@@ -73,16 +66,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         methodsAllowed.add("PATCH");
         configuration.setAllowedMethods(methodsAllowed);
 
-        // setAllowCredentials(true) is important, otherwise:
-        // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
-        configuration.setAllowCredentials(true);
-
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
         List<String> headersAllowed = new ArrayList<>();
-        headersAllowed.add("Authorization");
-        headersAllowed.add("Cache-Control");
-        headersAllowed.add("Content-Type");
+        headersAllowed.add("*");
         configuration.setAllowedHeaders(headersAllowed);
 
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -96,14 +83,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider);
     }
 
+
+
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-//    @Bean
-//    public SecurityContextHolderAwareRequestFilter securityContextHolderAwareRequestFilter() {
-//        return new SecurityContextHolderAwareRequestFilter();
-//    }
+
 }

@@ -2,8 +2,11 @@ package ru.itis.semesterwork.controllers.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.WebRequest;
 import ru.itis.semesterwork.dto.ErrorDto;
 import ru.itis.semesterwork.dto.SignUpDto;
@@ -14,6 +17,7 @@ import ru.itis.semesterwork.services.RegisterService;
 import ru.itis.semesterwork.services.UserService;
 
 @RestController
+@Scope(value = WebApplicationContext.SCOPE_APPLICATION)
 public class RegisterRestController {
 
     @Autowired

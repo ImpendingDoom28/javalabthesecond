@@ -3,8 +3,8 @@ Host: localhost:8080
 Content-Type: application/json
 
 {
-  "nickname": "MuziCunt",
-  "password": "123"
+"nickname": "Alino4ka",
+"password": "123"
 }
 ###
 
@@ -13,10 +13,10 @@ Host: localhost:8080
 Content-Type: application/json
 
 {
-  "nickname": "Sergey",
+  "nickname": "Sergik",
   "password": "228",
   "confirmPassword": "228",
-  "email": "test@gmail.com"
+  "email": "test123@gmail.com"
 }
 ###
 
@@ -47,5 +47,17 @@ Content-Type: application/json
 {
   "pageId": "FIRST_PAGE"
 }
+
+###
+GET /api/1.0/profile/1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XSwiaWQiOjEsImVtYWlsIjoibWlraGVldnMxMUBnbWFpbC5jb20iLCJzdWIiOiJNdXppQ3VudCIsImlhdCI6MTU4ODQxMjQxNiwiZXhwIjoxNTg4NDQ4NDE2fQ.97IUvqLcEtx3sEkUyS4b6TUSngdZ1rHJqHHR1cXVU4Y
+
+###
+GET /api/1.0/admin/users
+Host: localhost:8080
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjpbeyJhdXRob3JpdHkiOiJBRE1JTiJ9XSwiaWQiOjEsImVtYWlsIjoibWlraGVldnMxMUBnbWFpbC5jb20iLCJzdWIiOiJNdXppQ3VudCIsImlhdCI6MTU4ODc1MzY4OCwiZXhwIjoxNTg4Nzg5Njg4fQ.DiINF4bDGRVB8FvZtTZwUVeZfiaCvkEOZcT3TNbb3T4
 
 ###

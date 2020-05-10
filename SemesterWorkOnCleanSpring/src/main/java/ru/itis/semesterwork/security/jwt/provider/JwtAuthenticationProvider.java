@@ -13,6 +13,8 @@ import ru.itis.semesterwork.security.jwt.authentication.JwtAuthentication;
 import ru.itis.semesterwork.security.jwt.details.UserDetailsImpl;
 import ru.itis.semesterwork.services.TokenService;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 @Component
@@ -27,12 +29,18 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         Optional<Claims> claimsOptional = tokenService.validateToken(token);
         if(claimsOptional.isPresent()) {
             Claims claims = claimsOptional.get();
-            Role object = claims.get("role", Role.class);
-            System.out.println(object);
+            System.out.println(claims);
+
+            ArrayList object = claims.get("role", ArrayList.class);
+            String email = claims.get("email", String.class);
+            Long id = claims.get("id", Long.class);
+
             UserDetails userDetails = UserDetailsImpl.builder()
                     .user(User.builder()
                             .nickname(claims.getSubject())
-                            .role(claims.get("role", Role.class))
+                            .role(Role.valueOf(((LinkedHashMap)object.get(0)).get("authority").toString()))
+                            .email(email)
+                            .id(id)
                             .build())
                     .build();
             authentication.setAuthenticated(true);

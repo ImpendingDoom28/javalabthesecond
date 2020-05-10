@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminController {
 
     @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ModelAndView getAdmin() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("admin");

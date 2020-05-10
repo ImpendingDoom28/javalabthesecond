@@ -1,0 +1,10 @@
+{
+	"loginTitle": "Login",
+	"nickname": "Nickname",
+	"nicknamePlaceholder": "Enter your nickname",
+	"password": "Password",
+	"passwordPlaceholder": "Enter your password",
+	"loginButtonText": "Log in Codep!",
+	"loginWithFacebook": "Login with Facebook",
+	"noAccountMessage": "No Account? Register right now!"
+}
