@@ -1,15 +1,14 @@
 package ru.itis.semesterwork.models;
 
 import lombok.*;
-import org.hibernate.annotations.CollectionId;
-import org.springframework.cglib.core.Local;
-import ru.itis.semesterwork.forms.UserForm;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -37,5 +36,7 @@ public class User {
     private VerificationToken verificationToken;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Sandbox> sandboxList;
 
 }

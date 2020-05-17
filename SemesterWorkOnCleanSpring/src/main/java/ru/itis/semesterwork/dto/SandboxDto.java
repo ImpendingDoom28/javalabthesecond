@@ -1,12 +1,10 @@
 package ru.itis.semesterwork.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.itis.semesterwork.models.Sandbox;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -19,6 +17,7 @@ public class SandboxDto extends Dto {
     private String cssCode;
 
     public static SandboxDto from(Sandbox sandbox) {
+        System.out.println("Creating sandboxdto from " + sandbox);
         return SandboxDto.builder()
                 .cssCode(sandbox.getCssCode())
                 .htmlCode(sandbox.getHtmlCode())
@@ -28,4 +27,14 @@ public class SandboxDto extends Dto {
                 .build();
     }
 
+
+    @Override
+    public Boolean getIsError() {
+        return false;
+    }
+
+    @Override
+    public Long getCode() {
+        return 0L;
+    }
 }

@@ -20,9 +20,7 @@ public class Profile {
     private Long id;
     private String bio;
 
-    @OneToMany
-    private List<Sandbox> sandboxes;
-
     @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
 }

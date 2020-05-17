@@ -1,0 +1,23 @@
+{
+  "description": {
+    "title": "Sign up now to get:",
+    "1": "Ability to save your snippets!",
+    "2": "To load or upload code snippets from out site!"
+  },
+  "form": {
+    "title": "Register",
+    "undertitle": "Join CodeP",
+    "alreadyHaveAccount": "Already have an account?",
+    "nicknamePlaceholder": "Enter your nickname",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "conditions": {
+      "title": "Your password must follow the conditions below:",
+      "1": "It must be at least 8 symbols",
+      "2": "It must at least contain 1 upper case letter",
+      "3": "It must at least contain 1 number"
+    },
+    "confirmPasswordPlaceholder": "Confirm your password",
+    "buttonText": "Register now on CodeP!"
+  }
+}

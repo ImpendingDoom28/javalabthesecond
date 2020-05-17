@@ -3,9 +3,7 @@ package ru.itis.semesterwork.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.itis.semesterwork.dto.SignUpDto;
-import ru.itis.semesterwork.dto.UserDto;
-import ru.itis.semesterwork.forms.UserForm;
+import ru.itis.semesterwork.forms.RegisterForm;
 import ru.itis.semesterwork.models.Role;
 import ru.itis.semesterwork.models.State;
 import ru.itis.semesterwork.models.User;
@@ -23,7 +21,7 @@ public class RegisterServiceImpl implements RegisterService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void register(UserForm form) {
+    public void register(RegisterForm form) {
         if(form.getPassword().equals(form.getConfirmPassword())) {
             Optional<User> userCheckOptional = usersRepository.findUserByNickname(form.getNickname());
             if(!userCheckOptional.isPresent()) {

@@ -16,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
@@ -33,6 +34,11 @@ public class ApplicationContextConfig {
 
     @Autowired
     private Environment environment;
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        return new MethodValidationPostProcessor();
+    }
 
     @Bean
     public PasswordEncoder bCryptPasswordEncoder() {

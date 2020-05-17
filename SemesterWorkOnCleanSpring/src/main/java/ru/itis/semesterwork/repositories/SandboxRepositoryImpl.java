@@ -15,6 +15,9 @@ public class SandboxRepositoryImpl implements SandboxRepository {
 
     //language=SQL
     private final String SQL_FIND_BY_ID = "SELECT * FROM sandbox WHERE sandbox.id = ?1";
+    //language=SQL
+    private final String SQL_UPDATE = "UPDATE sandbox SET " +
+            "htmlCode = ?, cssCode = ?, jsCode = ? WHERE user_id = ?";
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -47,7 +50,14 @@ public class SandboxRepositoryImpl implements SandboxRepository {
     }
 
     @Override
+    @Transactional
     public Optional<Sandbox> update(Sandbox entity) {
-        return Optional.empty();
+        entityManager.createNativeQuery(SQL_UPDATE)
+                .setParameter(1, entity.getHtmlCode())
+                .setParameter(2, entity.getCssCode())
+                .setParameter(3, entity.getJsCode())
+                .setParameter(4, entity.getUser().getId())
+                .executeUpdate();
+        return Optional.of(entity);
     }
 }

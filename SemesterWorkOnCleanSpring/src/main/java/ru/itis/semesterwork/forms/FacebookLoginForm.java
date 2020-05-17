@@ -3,8 +3,8 @@ package ru.itis.semesterwork.forms;
 import lombok.Data;
 
 @Data
-public class LoginForm {
-
+public class FacebookLoginForm {
+    private String email;
     private String nickname;
-    private String password;
+    private String accessToken;
 }

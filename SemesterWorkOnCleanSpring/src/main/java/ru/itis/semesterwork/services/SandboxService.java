@@ -1,16 +1,16 @@
 package ru.itis.semesterwork.services;
 
+import ru.itis.semesterwork.dto.SandboxDto;
 import ru.itis.semesterwork.models.Sandbox;
+import ru.itis.semesterwork.models.User;
 
 public interface SandboxService {
 
-    void save(Sandbox sandbox);
+    void saveOrUpdate(SandboxDto sandboxDto, User user);
 
-    void update(Sandbox sandbox);
+    SandboxDto load(String id);
 
-    Sandbox load(String id);
-
-    Sandbox loadWithRandomId();
+    SandboxDto loadWithRandomId();
 
     void deleteById(String id);
 

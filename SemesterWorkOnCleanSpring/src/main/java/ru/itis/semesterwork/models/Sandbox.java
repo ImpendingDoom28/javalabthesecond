@@ -1,17 +1,16 @@
 package ru.itis.semesterwork.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "sandbox")
 @ToString(exclude = {"user"})
+@Builder
 public class Sandbox {
     @Id
     private String id;
@@ -21,6 +20,9 @@ public class Sandbox {
     private String jsCode;
     private String cssCode;
 
-    @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
+
 }

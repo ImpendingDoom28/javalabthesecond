@@ -16,6 +16,7 @@ import ru.itis.semesterwork.repositories.UsersRepository;
 import ru.itis.semesterwork.repositories.VerificationTokenRepository;
 import ru.itis.semesterwork.security.jwt.details.UserDetailsImpl;
 
+import javax.persistence.NoResultException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
@@ -76,17 +77,21 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public boolean validateVerificationToken(String token) {
-        Optional<VerificationToken> tokenOptional = verificationTokenRepository.findByValue(token);
-        if(tokenOptional.isPresent()) {
-            VerificationToken verificationToken = tokenOptional.get();
-            if(verificationToken.getValue().equals(token)) {
-                User toUpdate = verificationToken.getUser();
-                toUpdate.setState(State.CONFIRMED);
-                usersRepository.update(toUpdate);
-                return true;
+        try {
+            Optional<VerificationToken> tokenOptional = verificationTokenRepository.findByValue(token);
+            if (tokenOptional.isPresent()) {
+                VerificationToken verificationToken = tokenOptional.get();
+                if (verificationToken.getValue().equals(token)) {
+                    User toUpdate = verificationToken.getUser();
+                    toUpdate.setState(State.CONFIRMED);
+                    usersRepository.update(toUpdate);
+                    return true;
+                }
             }
+            return false;
+        } catch(NoResultException e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        return false;
     }
 
     private String createToken(Map<String, Object> claims, String subject) {

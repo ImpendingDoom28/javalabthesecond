@@ -3,9 +3,12 @@ package ru.itis.semesterwork.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.itis.semesterwork.dto.SandboxDto;
 import ru.itis.semesterwork.models.Sandbox;
+import ru.itis.semesterwork.models.User;
 import ru.itis.semesterwork.repositories.SandboxRepository;
 
+import javax.persistence.NoResultException;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,27 +21,36 @@ public class SandboxServiceImpl implements SandboxService {
     private String templateId;
 
     @Override
-    public void save(Sandbox sandbox) {
+    public void saveOrUpdate(SandboxDto sandboxDto, User user) {
+        Sandbox sandboxToSave = Sandbox.builder()
+                .cssCode(sandboxDto.getCssCode())
+                .htmlCode(sandboxDto.getHtmlCode())
+                .jsCode(sandboxDto.getJsCode())
+                .id(sandboxDto.getId())
+                .name(sandboxDto.getName())
+                .user(user)
+                .build();
+        try {
+            Optional<Sandbox> foundSandbox = sandboxRepository.findById(sandboxDto.getId());
+            if(foundSandbox.isPresent()) sandboxRepository.update(sandboxToSave);
+        } catch(NoResultException e) {
+            sandboxRepository.save(sandboxToSave);
+        }
     }
 
     @Override
-    public void update(Sandbox sandbox) {
-
+    public SandboxDto load(String id) {
+        return SandboxDto.from(sandboxRepository.findById(id).get());
     }
 
     @Override
-    public Sandbox load(String id) {
-        return null;
-    }
-
-    @Override
-    public Sandbox loadWithRandomId() {
+    public SandboxDto loadWithRandomId() {
         Optional<Sandbox> templateSandbox = sandboxRepository.findById(templateId);
         if(templateSandbox.isPresent()) {
             Sandbox sandbox = templateSandbox.get();
             String uuid = UUID.randomUUID().toString();
             sandbox.setId(uuid);
-            return sandbox;
+            return SandboxDto.from(sandbox);
         } else throw new IllegalArgumentException("No template sandbox found!!! OMG!!!");
     }
 

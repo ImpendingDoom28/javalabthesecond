@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,6 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.security.web.csrf.CsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -37,8 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //подписывание страничек
-        http.csrf().disable();
+        http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
         http.cors().and().logout().disable();
         http.formLogin().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -49,7 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         //Сюда добавлять те url'ы, на которых не нужна проверка секьюрити,
         //в частности, проверку нашим jwt фильтром.
-        web.ignoring().antMatchers( "/api/1.0/login", "/api/1.0/sandbox", "/api/1.0/register", "/static/locales/**");
+        web.ignoring().antMatchers(HttpMethod.GET, "/api/1.0/sandbox/**" , "/static/locales/**");
+        web.ignoring().antMatchers(HttpMethod.POST, "/api/1.0/sandbox","/api/1.0/register", "/api/1.0/facebook/login", "/api/1.0/login");
     }
 
     @Bean
@@ -82,8 +87,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider);
     }
-
-
 
     @Bean
     @Override

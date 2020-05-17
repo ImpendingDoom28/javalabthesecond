@@ -3,11 +3,11 @@ package ru.itis.semesterwork.dto;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 
-@Getter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SignUpDto extends Dto {
+public class SuccessDto extends Dto {
 
     private String message;
 
