@@ -14,7 +14,6 @@ public class FreemarkerConfig {
 
     @Bean
     public FreeMarkerConfigurationFactoryBean getFreeMarkerConfiguration() throws IOException, TemplateException {
-        FreeMarkerConfigurationFactoryBean bean = new FreeMarkerConfigurationFactoryBean();
-        return bean;
+        return new FreeMarkerConfigurationFactoryBean();
     }
 }

@@ -7,11 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.view.freemarker.FreeMarkerConfig;
-import ru.itis.mail.config.FreemarkerConfig;
 import ru.itis.mail.services.EmailService;
 import ru.itis.mail.services.FilesService;
-import ru.itis.mail.services.FilesServiceImpl;
 
 import java.io.File;
 import java.lang.reflect.Method;
