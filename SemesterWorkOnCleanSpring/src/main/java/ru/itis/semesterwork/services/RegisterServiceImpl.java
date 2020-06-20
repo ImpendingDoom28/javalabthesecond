@@ -17,6 +17,7 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Autowired
     private UsersRepository usersRepository;
+    //Сюда заавтовайрили наш бин
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -27,6 +28,7 @@ public class RegisterServiceImpl implements RegisterService {
             if(!userCheckOptional.isPresent()) {
                 User userToSave = User.builder()
                         .email(form.getEmail())
+                        //Хешируем пароль с помощью метода encode
                         .hashPassword(passwordEncoder.encode(form.getPassword()))
                         .nickname(form.getNickname())
                         .role(Role.USER)

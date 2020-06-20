@@ -12,13 +12,16 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+//Указываем, что этот класс представляет собой сущность
 @Entity(name = "user_codep")
 @ToString(exclude = {"verificationToken", "profile"})
 public class User {
-
+    //Указываем, что это поле - primary key
     @Id
+    //Говорим бд, чтобы оно само генерировало нам primary key
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //Задаём имя колонке в таблице
     @Column(name = "nickname")
     private String nickname;
     @Column(name = "email")
@@ -31,12 +34,11 @@ public class User {
     private Role role;
     @Enumerated(value = EnumType.STRING)
     private State state;
-
+    //Указываем тип отношения с другой сущностью
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private VerificationToken verificationToken;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Profile profile;
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Sandbox> sandboxList;
-
 }

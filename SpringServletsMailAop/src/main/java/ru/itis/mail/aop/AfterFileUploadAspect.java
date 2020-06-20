@@ -14,6 +14,11 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 
+/*
+    Так как мы реализуем интерфейс AfterReturningAdvice,
+    наш метод сработает только после того, как метод,
+    который загружает файл, выполнится.
+ */
 @Component
 public class AfterFileUploadAspect implements AfterReturningAdvice {
 

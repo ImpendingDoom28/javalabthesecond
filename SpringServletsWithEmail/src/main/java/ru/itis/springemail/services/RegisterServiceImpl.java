@@ -27,7 +27,6 @@ public class RegisterServiceImpl implements RegisterService{
     @Autowired
     private TokenService tokenService;
 
-
     @Override
     public List<String> register(String email, String password, String name, String surname, ServletContext servletContext) {
         List<String> errors = new ArrayList<>();
