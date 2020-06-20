@@ -18,6 +18,7 @@ import java.util.*;
 @Repository
 public class UsersRepositoryImpl implements UsersRepository {
 
+    //Ниже запросы к базе данных на языке SQL в виде строчек-констант
     //language=SQL
     private static final String SQL_SAVE = "INSERT INTO user_codep(created_at, email, hash_password, nickname, role, state) " +
             "VALUE (?, ?, ?, ?, ?, ?)";
@@ -30,6 +31,7 @@ public class UsersRepositoryImpl implements UsersRepository {
     //language=SQL
     private static final String SQL_FIND_ALL = "SELECT * FROM user_codep";
 
+    //RowMapper позволяет преобразовывать результат из базы данных в Java-объект
     private RowMapper<User> userRowMapper = (row, rowIndex) ->
         User.builder()
                 .id(row.getLong("id"))
@@ -41,6 +43,7 @@ public class UsersRepositoryImpl implements UsersRepository {
                 .createdAt(row.getTimestamp("created_at").toLocalDateTime())
                 .build();
 
+    //Сам класс для работы с JdbcTemplate
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -59,6 +62,7 @@ public class UsersRepositoryImpl implements UsersRepository {
 
     @Override
     public Optional<User> save(User entity) {
+        //Держатель ключей - нужен, чтобы бд проставила туда сгенерированный ключ
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE, Statement.RETURN_GENERATED_KEYS);
@@ -70,6 +74,7 @@ public class UsersRepositoryImpl implements UsersRepository {
             preparedStatement.setString(6, entity.getState().name());
             return preparedStatement;
         }, keyHolder);
+        //Получаем тот самый ключ из бд
         entity.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
         return Optional.of(entity);
     }

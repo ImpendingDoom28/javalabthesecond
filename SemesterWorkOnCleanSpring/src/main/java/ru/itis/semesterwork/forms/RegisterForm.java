@@ -3,20 +3,20 @@ package ru.itis.semesterwork.forms;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
 public class RegisterForm {
-    @NotNull
-    @Size(min = 6, max = 20)
+    @NotBlank
     private String nickname;
-    @NotNull
+    @NotBlank
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$")
     private String password;
-    @NotNull
+    @NotBlank
     private String confirmPassword;
 
-    @NotNull
     @Email
     @Size(min = 8)
     private String email;

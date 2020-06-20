@@ -26,11 +26,16 @@ import java.util.Objects;
 import java.util.Properties;
 
 @EnableTransactionManagement
+//Говорим, что этот класс является конфигурацией
 @Configuration
 @Scope("admin")
+//Включили JPA репозитории
 @EnableJpaRepositories(basePackages = {"ru.itis.semesterwork.repositories"})
+//Включили автопрокси с помощью аспектов
 @EnableAspectJAutoProxy(proxyTargetClass = true)
+//Говорим, чтобы класс просканировал пакет на наличие компонентов
 @ComponentScan(basePackages = {"ru.itis.semesterwork"})
+//Указываем файл с настройками приложения
 @PropertySource("classpath:application.properties")
 public class ApplicationContextConfig {
 
@@ -68,7 +73,10 @@ public class ApplicationContextConfig {
         return transactionManager;
     }
 
+    //Далее тут объявляем различные бины
+
     //Здесь мы настраиваем конфигурацию hikari, указывая данные для подключения к базе данных
+    @Bean
     public HikariConfig hikariConfig() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(environment.getProperty("db.url"));

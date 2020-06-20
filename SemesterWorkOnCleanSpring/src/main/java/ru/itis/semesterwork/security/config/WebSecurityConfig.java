@@ -16,9 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-import org.springframework.security.web.csrf.CsrfFilter;
-import org.springframework.security.web.csrf.CsrfTokenRepository;
-import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -53,8 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         //Сюда добавлять те url'ы, на которых не нужна проверка секьюрити,
         //в частности, проверку нашим jwt фильтром.
-        web.ignoring().antMatchers(HttpMethod.GET, "/api/1.0/sandbox/**" , "/static/locales/**");
-        web.ignoring().antMatchers(HttpMethod.POST, "/api/1.0/sandbox","/api/1.0/register", "/api/1.0/facebook/login", "/api/1.0/login");
+        web.ignoring().antMatchers("/api/1.0/sandbox/**" , "/static/locales/**","/api/1.0/sandbox","/api/1.0/register", "/api/1.0/facebook/login", "/api/1.0/login");
     }
 
     @Bean
