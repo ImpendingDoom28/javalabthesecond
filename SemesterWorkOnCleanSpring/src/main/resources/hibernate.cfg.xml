@@ -9,7 +9,7 @@
 
         <property name="hibernate.connection.password">12345</property>
 
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:3306/education_center</property>
+        <property name="hibernate.connection.url">jdbc:postgresql://localhost:3306/codep</property>
 
         <property name="hibernate.dialect">com.mysql.cj.jdbc.MYSQLDialect</property>
 
