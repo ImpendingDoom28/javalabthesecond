@@ -1,5 +1,7 @@
 package ru.itis.semesterwork.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
@@ -64,6 +66,20 @@ public class ApplicationContextConfig {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
         transactionManager.setEntityManagerFactory(entityManagerFactory);
         return transactionManager;
+    }
+
+    //Здесь мы настраиваем конфигурацию hikari, указывая данные для подключения к базе данных
+    public HikariConfig hikariConfig() {
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(environment.getProperty("db.url"));
+        config.setUsername(environment.getProperty("db.user"));
+        config.setDriverClassName(environment.getProperty("db.driver"));
+        config.setPassword(environment.getProperty("db.password"));
+        return config;
+    }
+    //Используем нашу конфигурацию
+    public DataSource dataSource() {
+        return new HikariDataSource(hikariConfig());
     }
 
     @Bean
