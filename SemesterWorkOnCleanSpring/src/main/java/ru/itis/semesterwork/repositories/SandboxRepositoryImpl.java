@@ -9,20 +9,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
-//Uses spring data jpa without spring boot
 @Repository
 public class SandboxRepositoryImpl implements SandboxRepository {
 
+    //Запросы к бд
     //language=SQL
     private final String SQL_FIND_BY_ID = "SELECT * FROM sandbox WHERE sandbox.id = ?1";
     //language=SQL
     private final String SQL_UPDATE = "UPDATE sandbox SET " +
             "htmlCode = ?, cssCode = ?, jsCode = ? WHERE user_id = ?";
 
+    //Контекст, в котором хранятся объекты, которые взаимодействовали с базой
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
+    //Эта аннотация означает, что метод работает в рамках одной транзакции
     @Transactional
     public Optional<Sandbox> save(Sandbox entity) {
         entityManager.persist(entity);

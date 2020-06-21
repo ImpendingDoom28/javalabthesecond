@@ -13,6 +13,7 @@
         <input type="email" placeholder="Enter your e-mail" name="email"/>
         <input type="password" placeholder="Enter your password" name="password"/>
         <input type="password" placeholder="Confirm password" name="confirmPassword"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <input type="submit" value="Register"/>
     </form>
 </body>

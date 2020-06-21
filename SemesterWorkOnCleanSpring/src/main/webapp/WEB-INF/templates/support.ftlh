@@ -16,7 +16,7 @@
                 pageId,
                 message
             };
-            
+
             $.ajax({
                 url: "/messages",
                 method: "POST",
@@ -28,6 +28,7 @@
                         receiveMessage(pageId);
                     }
                 }
+
             })
         }
 

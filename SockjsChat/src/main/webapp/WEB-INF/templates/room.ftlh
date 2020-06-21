@@ -14,6 +14,7 @@
     <script>
         var webSocket;
         function connect() {
+            //Здесь мы создаём объект SockJS
             webSocket = new SockJS("http://localhost:8080/chat");
             document.cookie = "path=/";
 

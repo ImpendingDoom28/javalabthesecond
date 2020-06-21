@@ -41,13 +41,13 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         configurer.enable();
     }
 
-    // добавили в наше приложение перехватчик запросов для локализации
+    // Добавили в наше приложение перехватчик запросов для локализации
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(localeChangeInterceptor());
     }
 
-    // храним информацию о выбранном языке в куках
+    // Храним информацию о выбранном языке в куках
     @Bean
     public LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
@@ -56,9 +56,9 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         return cookieLocaleResolver;
     }
 
-    // перехватчик настроек языка
-    // то есть если на сервер пришел запрос localhost:8080/login?lng=ru или ?lng=en, то этот перехватчик
-    // установит куку с нужным значением
+    // Перехватчик настроек языка
+    // То есть если на сервер пришел запрос localhost:8080/login?lng=ru или ?lng=en, то этот перехватчик
+    // Установит куку с нужным значением
     @Bean
     public LocaleChangeInterceptor localeChangeInterceptor() {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
@@ -72,7 +72,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
         bean.setValidationMessageSource(messageSource());
         return bean;
     }
-    // откуда читать ключи с языками
+    // Откуда читать ключи с языками
     @Bean
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();

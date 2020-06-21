@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.itis.semesterwork.dto.UsersDto;
 import ru.itis.semesterwork.services.UserService;
 
+//Аннотация для контроллера, использующего REST API
+//Говорит о том, что любой возвращаемый объект необходимо
+//на выходе превращать в JSON
 @RestController
 public class AdminRestController {
 
